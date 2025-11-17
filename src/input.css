@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+@import "tailwindcss";
+
+@theme{
+    --color-grey-500: #626C7F;
+    --color-grey-50: #F4F6FA;
+    --color-blue-950: #2D3949;
+    --color-blue-900: #313E51;
+    --color-blue-850: #3B4D66;
+    --color-blue-500: #306AFF;
+    --color-blue-300: #ABC1E1;
+    --color-blue-100: #EDF1F9;
+    --color-blue-50: #EBF0FF;
+    --color-green-500: #2FD887;
+    --color-green-100: #E0FDEF;
+    --color-purple-600: #A729F5;
+    --color-purple-100: #F6E7FF;
+    --color-orange-400: #FF7E35;
+    --color-orange-50: #FFF5ED;
+    --color-red-500: #EE5454;
+
+    --font-rubik: "Rubik", sans-serif;
+}
+@layer utilities{
+    .preset-1{
+        @apply font-rubik font-medium text-[144px]/[100%] tracking-normal;
+    }
+    .preset-2-medium{
+        @apply font-rubik font-medium text-[64px]/[100%] tracking-normal;
+    }
+    .preset-2-light{
+        @apply font-rubik font-light text-[64px]/[100%] tracking-normal;
+    }
+    .preset-3{
+        @apply font-rubik font-medium text-[36px]/[120%] tracking-normal;
+    }
+    .preset-4{
+        @apply font-rubik font-medium text-[28px]/[100%] tracking-normal;
+    }
+    .preset-5-medium{
+        @apply font-rubik font-medium text-[24px]/[150%] tracking-normal;
+    }
+    .preset-5-regular{
+        @apply font-rubik font-normal text-[24px]/[150%] tracking-normal;
+    }
+    .preset-6{
+        @apply font-rubik italic text-[20px]/[150%] tracking-normal;
+    }
+    .preset-1-mobile{
+        @apply font-rubik font-medium text-[88px]/[100%] tracking-normal;
+    }
+    .preset-2-mobile-medium{
+        @apply font-rubik font-medium text-[40px]/[100%] tracking-normal;
+    }
+    .preset-2-mobile-light{
+        @apply font-rubik font-light text-[40px]/[100%] tracking-normal;
+    }
+    .preset-3-mobile{
+        @apply font-rubik font-medium text-[20px]/[120%] tracking-normal;
+    }
+    .preset-4-mobile{
+        @apply font-rubik font-medium text-[18px]/[100%] tracking-normal;
+    }
+    .preset-5-mobile{
+        @apply font-rubik italic text-[14px]/[150%] tracking-normal;
+    }
+
+}
