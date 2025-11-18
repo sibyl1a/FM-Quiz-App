@@ -7,8 +7,49 @@
     <link href="src/output.css" rel="stylesheet">
 </head>
 <body>
-    <main class="h-screen bg-grey-50 bg-[url(/images/pattern-background-mobile-light.svg)] bg-cover bg-no-repeat">
-
+    <main class="h-screen bg-grey-50 bg-[url(/images/pattern-background-mobile-light.svg)] bg-cover bg-no-repeat flex flex-col md:bg-[url(/images/pattern-background-tablet-light.svg)] md:bg-auto lg:bg-[url(/images/pattern-background-desktop-light.svg)]">
+        <div id="theme" class="w-full flex justify-end items-center h-[72px] gap-2 px-6 md:gap-4 md:px-16 md:pt-[54px] lg:pt-[107px] lg:mb-[99px]">
+            <img src="images\icon-sun-dark.svg" class="h-4 w-4 md:h-6 md:w-6">
+            <label class="relative inline-block w-8 h-5 md:w-12 md:h-7">
+                <input type="checkbox" class="opacity-0 w-0 h-0 peer"/>
+                <span class="rounded-[30px] absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-purple-600 transition-all
+                peer-checked:bg-purple-600 before:absolute before:content-[''] before:h-3 before:w-3 md:before:w-5 md:before:h-5 before:left-1 before:bottom-1 before:bg-white before:rounded-full before:transition-all peer-checked:before:translate-x-3 md:peer-checked:before:translate-x-5"></span>
+            </label>
+            <img src="images\icon-moon-dark.svg" class="h-4 w-4 md:h-6 md:w-6">
+        </div>
+        <div class="lg:flex lg:flex-row lg:px-[140px]">
+            <div id="text-div" class="w-full pt-8 px-6 mb-10 md:pt-12 md:px-16 md:mb-16 lg:px-0 lg:pt-0">
+                <h1 class="preset-2-mobile-light text-blue-900 mb-2 md:preset-2-light">Welcome to the </h1>
+                <h1 class="preset-2-mobile-medium text-blue-900 mb-4 lg:mb-12">Frontend Quiz!</h1>
+                <span class="preset-5-mobile text-grey-500 md:text-[20px]!">Pick a subject to get started.</span>
+            </div>
+            <div id="options-div" class="w-full px-6 flex flex-col gap-4 md:px-16 md:gap-6 lg:px-0 lg:gap-4">
+                <div id="html-1" class="md:h-[88px] lg:h-[104px] lg:w-[564px] bg-white w-full h-[72px] p-4 rounded-xl flex items-center flex-row gap-4 md:gap-8">
+                    <span class="w-10 h-10 bg-orange-50 rounded-md flex justify-center items-center md:w-14 md:h-14 md:rounded-xl">
+                        <img src="images\icon-html.svg" class="h-7 w-7 md:h-10 md:w-10">
+                    </span>
+                    <h3 class="preset-4-mobile text-blue-900 md:text-[28px]">HTML</h3>
+                </div>
+                <div id="css-1" class="md:h-[88px] lg:h-[104px] lg:w-[564px] bg-white w-full h-[72px] p-4 rounded-xl flex items-center flex-row gap-4 md:gap-8">
+                    <span class="w-10 h-10 bg-green-100 rounded-md flex justify-center items-center md:w-14 md:h-14 md:rounded-xl">
+                        <img src="images\icon-css.svg" class="h-7 w-7 md:h-10 md:w-10">
+                    </span>
+                    <h3 class="preset-4-mobile text-blue-900 md:text-[28px]">CSS</h3>
+                </div>
+                <div id="javascript-1" class="md:h-[88px] lg:h-[104px] lg:w-[564px] bg-white w-full h-[72px] p-4 rounded-xl flex items-center flex-row gap-4 md:gap-8">
+                    <span class="w-10 h-10 bg-grey-50 rounded-md flex justify-center items-center md:w-14 md:h-14 md:rounded-xl">
+                        <img src="images\icon-js.svg" class="h-7 w-7 md:h-10 md:w-10">
+                    </span>
+                    <h3 class="preset-4-mobile text-blue-900 md:text-[28px]">Javascript</h3>
+                </div>
+                <div id="accessibility" class="md:h-[88px] lg:h-[104px] lg:w-[564px] bg-white w-full h-[72px] p-4 rounded-xl flex items-center flex-row gap-4 md:gap-8">
+                    <span class="w-10 h-10 bg-purple-100 rounded-md flex justify-center items-center md:w-14 md:h-14 md:rounded-xl">
+                        <img src="images\icon-accessibility.svg" class="h-7 w-7 md:h-10 md:w-10">
+                    </span>
+                    <h3 class="preset-4-mobile text-blue-900 md:text-[28px]">Accessibility</h3>
+                </div>
+            </div>
+        </div>
     </main>
     
 </body>

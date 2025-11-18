@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-
 @import "tailwindcss";
 
 @theme{
@@ -22,7 +21,12 @@
 
     --font-rubik: "Rubik", sans-serif;
 }
-@layer utilities{
+
+@layer utilities {
+    .font-rubik { 
+        font-family: var(--font-rubik); 
+    }
+
     .preset-1{
         @apply font-rubik font-medium text-[144px]/[100%] tracking-normal;
     }
@@ -66,4 +70,24 @@
         @apply font-rubik italic text-[14px]/[150%] tracking-normal;
     }
 
+    @media (min-width: 768px) {
+        .preset-1-mobile {
+            @apply text-[144px]/[100%];
+        }
+        .preset-2-mobile-medium {
+            @apply text-[64px]/[100%];
+        }
+        .preset-2-mobile-light {
+            @apply text-[64px]/[100%];
+        }
+        .preset-3-mobile {
+            @apply text-[36px]/[120%];
+        }
+        .preset-4-mobile {
+            @apply text-[28px]/[100%];
+        }
+        .preset-5-mobile {
+            @apply text-[24px]/[150%];
+        }
+    }
 }
