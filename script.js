@@ -11,6 +11,9 @@ let quizTopic = undefined;
 let quizData = undefined;
 let questions = [];
 let currentQuestion = 0;
+let answer = undefined;
+let score = 0;
+let selectedCard = undefined;
 
 fetch('/data.json').then(response => response.json()).then(data => {
     quizData = data;
@@ -57,13 +60,18 @@ function visual(quizTopic){
     progressBar.className = 'w-full h-4 bg-white rounded-[20px] flex items-center px-1.5';
     const progress = document.createElement('div');
     progress.className = 'h-2 bg-purple-600 rounded-[20px]';
-    progress.style.width = '10%';
+    progress.style.width = `${(currentQuestion + 1) * 10}%`;
     progressBar.appendChild(progress);
     textDiv.appendChild(progressBar);
 
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'w-full h-14 bg-purple-600 preset-4-mobile text-white rounded-[12px] cursor-pointer';
+    submitBtn.textContent = "Submit Answer";
     createCards(questions[currentQuestion]);
+    optionsDiv.appendChild(submitBtn);
+    checkAnswer(submitBtn);
 
-}
+};
 
 function createCards(question){
     question.options.forEach((optionText, index)=>{
@@ -79,11 +87,84 @@ function createCards(question){
         card.addEventListener('click', function(){
             optionsDiv.querySelectorAll('button').forEach(button=>{
                 button.classList.remove('border-purple-600!');
+
+                const span = button.querySelector('span');
+                if(span){
+                    span.classList.remove('bg-purple-600');
+                    span.classList.remove('text-white');
+                }
+
+                answer = optionText;
+                selectedCard = this;
             })
             this.classList.add('border-purple-600!');
+            this.querySelector('span').classList.add('bg-purple-600');
+            this.querySelector('span').classList.add('text-white');
         });
 
         optionsDiv.appendChild(card);
         });
+};
+function checkAnswer(submitBtn){
+    submitBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        if(!answer){
+            if(!document.querySelector('.alert')){
+                const alert = document.createElement('div');
+                alert.className = 'alert w-full justify-center items-center flex flex-row gap-2';
+                alert.innerHTML = `
+                <img src="images/icon-error.svg" class="w-8 h-8"/>
+                <span class="preset-4-mobile text-red-500">Please select an answer</span>
+                `;
+                optionsDiv.appendChild(alert);
+            }
+            return;
+        }else{
+            const alert = document.querySelector('.alert');
+            if(alert){
+                alert.remove();
+            }
+        }
 
+        if(currentQuestion<questions.length){
+            if(answer===questions[currentQuestion].answer){
+                score+=1;
+                if(selectedCard){
+                    const correct = document.createElement('img');
+                    correct.src='images/icon-correct.svg';
+                    correct.className = 'w-6 h-6 ml-auto';
+                    selectedCard.appendChild(correct);
+
+                    const span = selectedCard.querySelector('span');
+                    if(span){
+                        span.classList.remove('bg-grey-50', 'bg-purple-600');
+                        span.classList.add('bg-green-500');
+                        selectedCard.classList.add('border-green-500');
+                        selectedCard.classList.remove('border-transparent', 'border-purple-600!');
+                    }
+                } 
+            }else{
+                if(selectedCard){
+                    const incorrect = document.createElement('img');
+                    incorrect.src='images/icon-incorrect.svg';
+                    incorrect.className = 'w-6 h-6 ml-auto';
+                    selectedCard.appendChild(incorrect);
+                    const span = selectedCard.querySelector('span');
+                    if(span){
+                        
+                        span.classList.add('bg-red-500');
+                        selectedCard.classList.add('border-red-500!')
+
+                    }
+                }
+            }
+
+            optionsDiv.querySelectorAll('button').forEach(button=>button.disabled = true);
+            submitBtn.textContent = "Next Question";
+            
+        }
+        
+    })
+    
 }
+
