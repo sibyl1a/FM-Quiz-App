@@ -1,11 +1,10 @@
-const buttons = document.querySelectorAll('button');
+const topicButtons = document.querySelectorAll('.topic-button');
 const theme = document.getElementById('theme');
 const topicLabel = document.getElementById('topicLabel');
 const topicContainer = document.getElementById('topicContainer');
 const topicIcon = document.getElementById('topicIcon');
 const topicTitle = document.getElementById('topicTitle');
 const quizDiv = document.getElementById('quizDiv');
-
 
 let quizTopic = undefined;
 let quizData = undefined;
@@ -19,7 +18,7 @@ fetch('/data.json').then(response => response.json()).then(data => {
     quizData = data;
 });
 
-buttons.forEach(button=>{
+topicButtons.forEach(button=>{
     button.addEventListener('click', (e)=>{
         e.preventDefault();
 
@@ -76,27 +75,29 @@ function visual(quizTopic){
 function createCards(question){
     question.options.forEach((optionText, index)=>{
         const card = document.createElement('button');
-        card.className = 'md:h-[88px] lg:h-[104px] lg:w-[564px] bg-white w-full h-[72px] cursor-pointer p-4 rounded-xl flex items-center flex-row gap-4 md:gap-8 border-3 border-transparent hover:border-purple-600';
+        card.className = 'option-card md:h-[88px] lg:h-[104px] lg:w-[564px] bg-white w-full h-[72px] cursor-pointer p-4 rounded-xl flex items-center flex-row gap-4 md:gap-8 border-3 border-transparent hover:border-purple-600';
         card.innerHTML = `
-            <span class="preset-4-mobile text-grey-500 w-10 h-10 bg-grey-50 rounded-md flex justify-center items-center md:w-14 md:h-14 md:rounded-xl">
+            <span class="preset-4-mobile text-grey-500 w-10 h-10 shrink-0 overflow-hidden flex-none bg-grey-50 rounded-md flex justify-center items-center md:w-14 md:h-14 md:rounded-xl">
                 ${String.fromCharCode(65 + index)}
             </span>
             <h3 class="preset-4-mobile text-blue-900 md:text-[28px] text-left">
-                ${optionText}
+                ${optionText
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')}
+                
             </h3>`;
         card.addEventListener('click', function(){
             optionsDiv.querySelectorAll('button').forEach(button=>{
                 button.classList.remove('border-purple-600!');
-
                 const span = button.querySelector('span');
                 if(span){
                     span.classList.remove('bg-purple-600');
                     span.classList.remove('text-white');
                 }
+            });
 
-                answer = optionText;
-                selectedCard = this;
-            })
+            answer = optionText;
+            selectedCard = this;
             this.classList.add('border-purple-600!');
             this.querySelector('span').classList.add('bg-purple-600');
             this.querySelector('span').classList.add('text-white');
@@ -105,26 +106,40 @@ function createCards(question){
         optionsDiv.appendChild(card);
         });
 };
+
+function alertMessage(){
+    if (document.querySelector('.alert')) return;
+    const alert = document.createElement('div');
+    alert.className = 'alert w-full justify-center items-center flex flex-row gap-2';
+    alert.innerHTML = `
+    <img src="images/icon-error.svg" class="w-8 h-8"/>
+    <span class="preset-4-mobile text-red-500">Please select an answer</span>
+    `;
+    optionsDiv.appendChild(alert);
+}
+        
 function checkAnswer(submitBtn){
     submitBtn.addEventListener('click', (e)=>{
         e.preventDefault();
-        if(!answer){
-            if(!document.querySelector('.alert')){
-                const alert = document.createElement('div');
-                alert.className = 'alert w-full justify-center items-center flex flex-row gap-2';
-                alert.innerHTML = `
-                <img src="images/icon-error.svg" class="w-8 h-8"/>
-                <span class="preset-4-mobile text-red-500">Please select an answer</span>
-                `;
-                optionsDiv.appendChild(alert);
+
+        if(submitBtn.textContent==="Next Question" || submitBtn.textContent==="Show Results"){
+            currentQuestion++;
+            if(currentQuestion<questions.length){
+                answer=undefined;
+                selectedCard=undefined;
+                visual();
+            }else{
+                showResult();
             }
             return;
-        }else{
-            const alert = document.querySelector('.alert');
-            if(alert){
-                alert.remove();
-            }
+        };
+
+        if(!answer){
+            alertMessage();
+            return;
         }
+
+        document.querySelector('.alert')?.remove();
 
         if(currentQuestion<questions.length){
             if(answer===questions[currentQuestion].answer){
@@ -151,7 +166,6 @@ function checkAnswer(submitBtn){
                     selectedCard.appendChild(incorrect);
                     const span = selectedCard.querySelector('span');
                     if(span){
-                        
                         span.classList.add('bg-red-500');
                         selectedCard.classList.add('border-red-500!')
 
@@ -159,8 +173,12 @@ function checkAnswer(submitBtn){
                 }
             }
 
-            optionsDiv.querySelectorAll('button').forEach(button=>button.disabled = true);
-            submitBtn.textContent = "Next Question";
+            optionsDiv.querySelectorAll('.option-card').forEach(card=>card.disabled = true);
+            if(currentQuestion<questions.length-1){
+                submitBtn.textContent = "Next Question";
+            }else{
+                submitBtn.textContent = "Show Results";
+            }
             
         }
         
