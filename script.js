@@ -30,7 +30,6 @@ topicButtons.forEach(button=>{
         topicLabel.classList.add('flex');
         theme.classList.add('justify-between');
         const quizTopic = button.value;
-
         startQuiz(quizTopic, quizData);
     })
 });
@@ -38,7 +37,6 @@ topicButtons.forEach(button=>{
 function startQuiz(quizTopic, quizData){
     quizObject = quizData.quizzes.find(quiz => quiz.title.toLowerCase() === quizTopic.toLowerCase());
     questions = quizObject.questions;
-    console.log(questions);
     visual(quizTopic);
 };
 
@@ -117,7 +115,71 @@ function alertMessage(){
     `;
     optionsDiv.appendChild(alert);
 }
-        
+
+function showResult(){
+    quizDiv.innerHTML = "";
+    quizDiv.className = 'py-8 px-6 flex flex-col gap-10';
+
+    const textResult = document.createElement('div');
+    textResult.className = 'flex flex-col gap-2';
+
+    const text1 = document.createElement('h1');
+    text1.className = 'preset-2-mobile-light text-blue-900';
+    text1.textContent = 'Quiz Completed';
+
+    const text2 = document.createElement('h1');
+    text2.className = 'preset-2-mobile-medium text-blue-900';
+    text2.textContent = 'You scored...';
+
+    textResult.appendChild(text1);
+    textResult.appendChild(text2);
+    quizDiv.appendChild(textResult);
+
+    const showScore = document.createElement('div');
+    showScore.className = 'w-full flex flex-col gap-4';
+
+    const scoreDiv = document.createElement('div');
+    scoreDiv.className = 'w-full bg-white rounded-[12px] p-8 flex flex-col items-center gap-4';
+
+    const resultTopic = document.createElement('div');
+    resultTopic.className = 'flex flex-row items-center gap-4';
+    const iconBox = document.createElement('div');
+    iconBox.className = topicContainer.className;
+    iconBox.innerHTML = `
+        <img src="${topicIcon.src}" class="w-6 h-6 md:w-10 md:h-10"/>
+    `;
+    const titleBox = document.createElement('h2');
+    titleBox.className = 'preset-4-mobile text-blue-900';
+    titleBox.textContent = topicTitle.textContent;
+
+    resultTopic.appendChild(iconBox);
+    resultTopic.appendChild(titleBox);
+
+    scoreDiv.appendChild(resultTopic);
+
+    const scoreRes = document.createElement('span');
+    const outOf = document.createElement('span');
+    scoreRes.textContent = `${score}`;
+    scoreRes.className = 'text-blue-900 preset-1-mobile';
+    outOf.textContent = `out of ${questions.length}`;
+    outOf.className = 'preset-4-mobile text-grey-500';
+    scoreDiv.appendChild(scoreRes)
+    scoreDiv.appendChild(outOf);
+
+    const play = document.createElement('button');
+    play.textContent = 'Play Again';
+    play.className = 'play w-full bg-purple-600 preset-4-mobile text-white p-5 rounded-[12px] cursor-pointer'
+    
+    showScore.appendChild(scoreDiv);
+    showScore.appendChild(play);
+    quizDiv.appendChild(showScore);
+
+    play.addEventListener('click', (e)=>{
+        location.reload();
+    })
+
+};
+
 function checkAnswer(submitBtn){
     submitBtn.addEventListener('click', (e)=>{
         e.preventDefault();
